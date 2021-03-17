@@ -1,10 +1,11 @@
 ﻿using System;
 using PlotTool;
+using PlotTool.Repositories.Implementation;
+using PlotTool.Services.Implementation;
 
 Console.WriteLine("PlotTool Starting...");
-PlotManager.DrawAll();
-Console.WriteLine("PlotTool Started...");
 
-Console.WriteLine("Press any key to close tool...");
-Console.ReadKey();
+var plotManager = new PlotManager(new PlotViewService(new FilePlotViewRepository()));
+await plotManager.DrawAll();
+
 Console.WriteLine("PlotTool Finish...");
