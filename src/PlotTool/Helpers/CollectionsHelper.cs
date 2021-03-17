@@ -8,8 +8,8 @@ namespace PlotTool.Helpers
         public static IList<double> MergeCollections(IList<double> firstCollection, IList<double> secondCollection)
         {
             return firstCollection.Count >= secondCollection.Count
-                ? firstCollection.Select((x, i) => x + i < secondCollection.Count ? secondCollection[i] : default).ToArray()
-                : secondCollection.Select((x, i) => x + i < firstCollection.Count ? firstCollection[i] : default).ToArray();
+                ? firstCollection.Select((x, i) => x + (i < secondCollection.Count ? secondCollection[i] : default)).ToArray()
+                : secondCollection.Select((x, i) => x + (i < firstCollection.Count ? firstCollection[i] : default)).ToArray();
         }
 
     }
