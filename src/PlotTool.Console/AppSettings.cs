@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace PlotTool.Entities
+namespace PlotTool.Console
 {
     public class AppSettings
     {

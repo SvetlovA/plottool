@@ -4,7 +4,7 @@ using PlotTool.Entities;
 
 namespace PlotTool.Services
 {
-    public interface IPlotViewService
+    internal interface IPlotViewService
     {
         public Task<IEnumerable<PlotView>> GetAllPlots();
         public Task<IEnumerable<PlotView>> GetAggregatedPlots();

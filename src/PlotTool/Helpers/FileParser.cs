@@ -5,16 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using PlotTool.Entities;
 
-namespace PlotTool
+namespace PlotTool.Helpers
 {
-    internal class FileParser
+    internal static class FileParser
     {
-        public static async Task<IEnumerable<PlotView>> ParseAsync()
+        public static async Task<IEnumerable<PlotView>> ParseAsync(string[] plotDirectories)
         {
-            var directoriesPaths = AppSettings.Instance.PlotDirectoryPaths;
+            if (plotDirectories == null)
+            {
+                throw new ArgumentNullException(nameof(plotDirectories));
+            }
+
             var result = new List<PlotView>();
 
-            foreach (var directoriesPath in directoriesPaths)
+            foreach (var directoriesPath in plotDirectories)
             {
                 var plotView = new PlotView
                 {
@@ -33,14 +37,14 @@ namespace PlotTool
                     var traceView = new TraceView
                     {
                         TraceName = filePath.Split(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar},
-                            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).LastOrDefault(),
+                            StringSplitOptions.RemoveEmptyEntries).LastOrDefault(),
                         X = new List<double>(),
                         Y = new List<double>()
                     };
 
                     foreach (var line in lines)
                     {
-                        var coordinates = line.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                        var coordinates = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                         if (coordinates.Length != 2)
                         {

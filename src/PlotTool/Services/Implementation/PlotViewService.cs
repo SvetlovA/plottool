@@ -8,7 +8,7 @@ using PlotTool.Repositories;
 
 namespace PlotTool.Services.Implementation
 {
-    public class PlotViewService : IPlotViewService
+    internal class PlotViewService : IPlotViewService
     {
         private readonly IRepository<PlotView> _plotViewRepository;
 

@@ -8,7 +8,7 @@ using PlotTool.Services;
 
 namespace PlotTool
 {
-    public class PlotManager
+    internal class PlotManager : IPlotManager
     {
         private readonly IPlotViewService _plotViewService;
 

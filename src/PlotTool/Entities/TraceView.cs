@@ -2,7 +2,7 @@
 
 namespace PlotTool.Entities
 {
-    public class TraceView
+    internal class TraceView
     {
         public string TraceName { get; set; }
         public IList<double> X { get; set; }
