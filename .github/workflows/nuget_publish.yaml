@@ -6,8 +6,8 @@ jobs:
     name: build, pack & publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: checkout
+        uses: actions/checkout@v2
 
       # Publish
       - name: publish to nuget on version change
