@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PlotTool.Entities;
 
@@ -9,57 +10,97 @@ namespace PlotTool.Helpers
 {
     internal static class FileParser
     {
-        public static async Task<IEnumerable<PlotView>> ParseAsync(string[] plotDirectories)
+        private const char CoordinatesSeparator = ' ';
+        private const string TracePattern = @"^(([^\d\s]+.*)|(.+[^\d\s]+))";
+
+        public static Task<IEnumerable<PlotView>> ParseAsync(InputPlotData plotData)
         {
-            if (plotDirectories == null)
+            if (plotData == null)
             {
-                throw new ArgumentNullException(nameof(plotDirectories));
+                throw new ArgumentNullException(nameof(plotData));
             }
 
-            var result = new List<PlotView>();
-
-            foreach (var directoriesPath in plotDirectories)
+            if (plotData.PlotFilesDirectoryPaths == null)
             {
-                var plotView = new PlotView
-                {
-                    PlotName = directoriesPath,
-                    Traces = new List<TraceView>()
-                };
+                throw new ArgumentNullException(nameof(plotData.PlotFilesDirectoryPaths));
+            }
 
-                if (!Directory.Exists(directoriesPath))
+            return GetPlotViews(plotData);
+        }
+
+        private static async Task<IEnumerable<PlotView>> GetPlotViews(InputPlotData plotData)
+        {
+            var result = new List<PlotView>(plotData.PlotFilesDirectoryPaths.Length);
+
+            foreach (var directoryPath in plotData.PlotFilesDirectoryPaths)
+            {
+                if (!Directory.Exists(directoryPath))
                 {
-                    throw new Exception($"Directory {directoriesPath} not exists");
+                    throw new Exception($"Directory {directoryPath} not exists");
                 }
 
-                foreach (var filePath in Directory.GetFiles(directoriesPath, "*.txt"))
+                result.Add(new PlotView
                 {
-                    var lines = await File.ReadAllLinesAsync(filePath);
-                    var traceView = new TraceView
-                    {
-                        TraceName = filePath.Split(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar},
-                            StringSplitOptions.RemoveEmptyEntries).LastOrDefault(),
-                        X = new List<double>(),
-                        Y = new List<double>()
-                    };
-
-                    foreach (var line in lines)
-                    {
-                        var coordinates = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                        if (coordinates.Length != 2)
-                        {
-                            throw new Exception("Coordinates count must be 2");
-                        }
-
-                        traceView.X.Add(double.Parse(coordinates[0]));
-                        traceView.Y.Add(double.Parse(coordinates[1]));
-                    }
-                    plotView.Traces.Add(traceView);
-                }
-                result.Add(plotView);
+                    PlotName = plotData.PlotName ?? directoryPath,
+                    Traces = (await GetTraceViewsAsync(directoryPath)).ToArray()
+                });
             }
 
             return result;
         }
+
+        private static async Task<IEnumerable<TraceView>> GetTraceViewsAsync(string directoryPath)
+        {
+            var filePaths = Directory.GetFiles(directoryPath);
+            var result = new List<TraceView>(filePaths.Length);
+
+            foreach (var filePath in filePaths)
+            {
+                IEnumerable<string> lines = await File.ReadAllLinesAsync(filePath);
+                if (TryGetTraceNameByFileHeader(lines.FirstOrDefault(), filePath, out var traceName))
+                {
+                    lines = lines.Skip(1);
+                }
+
+                var coordinates = GetCoordinates(lines).ToArray();
+
+                result.Add(new TraceView
+                {
+                    TraceName = traceName,
+                    X = coordinates.Select(x => x.Item1).ToArray(),
+                    Y = coordinates.Select(x => x.Item2).ToArray()
+                });
+            }
+
+            return result;
+        }
+
+        private static IEnumerable<(double, double)> GetCoordinates(IEnumerable<string> lines)
+        {
+            foreach (var line in lines)
+            {
+                var coordinates = line.Split(CoordinatesSeparator, StringSplitOptions.RemoveEmptyEntries);
+
+                if (coordinates.Length != 2)
+                {
+                    throw new Exception("Coordinates count must be 2");
+                }
+
+                yield return (double.Parse(coordinates[0]), double.Parse(coordinates[1]));
+            }
+        }
+
+        private static bool TryGetTraceNameByFileHeader(string line, string filePath, out string traceName)
+        {
+            var result = line != null && Regex.IsMatch(line, TracePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            traceName = result ? line : GetTraceNameByFilePath(filePath);
+
+            return result;
+        }
+
+
+        private static string GetTraceNameByFilePath(string filePath) =>
+            filePath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
+                StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
     }
 }

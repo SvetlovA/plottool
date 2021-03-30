@@ -8,13 +8,13 @@ namespace PlotTool.Repositories.Implementation
 {
     internal class FilePlotViewRepository : IRepository<PlotView>
     {
-        private readonly string[] _plotDirectories;
+        private readonly InputPlotData _plotData;
 
-        public FilePlotViewRepository(string[] plotFilesDirectoryPaths)
+        public FilePlotViewRepository(InputPlotData plotData)
         {
-            _plotDirectories = plotFilesDirectoryPaths ?? throw new ArgumentNullException(nameof(plotFilesDirectoryPaths));
+            _plotData = plotData ?? throw new ArgumentNullException(nameof(plotData));
         }
 
-        public Task<IEnumerable<PlotView>> GetData() => FileParser.ParseAsync(_plotDirectories);
+        public Task<IEnumerable<PlotView>> GetData() => FileParser.ParseAsync(_plotData);
     }
 }

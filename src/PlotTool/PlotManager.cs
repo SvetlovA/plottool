@@ -62,8 +62,7 @@ namespace PlotTool
                         null,
                         null,
                         null,
-                        null))
-                    .ShowWithDescription(new ChartDescription.Description(plotView.PlotName, ""));
+                        null)).Show();
             }
         }
 

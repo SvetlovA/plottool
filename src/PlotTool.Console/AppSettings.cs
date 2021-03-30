@@ -20,6 +20,7 @@ namespace PlotTool.Console
             }
         }
 
+        public string PlotName { get; set; }
         public string[] PlotDirectoryPaths { get; set; }
     }
 }
