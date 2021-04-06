@@ -1,6 +1,9 @@
-﻿using PlotTool.Entities;
+﻿using System.Runtime.CompilerServices;
+using PlotTool.Entities;
 using PlotTool.Repositories.Implementation;
 using PlotTool.Services.Implementation;
+
+[assembly:InternalsVisibleTo("PlotTool.Tests")]
 
 namespace PlotTool
 {

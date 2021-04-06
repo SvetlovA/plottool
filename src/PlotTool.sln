@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotTool", "PlotTool\PlotTool.csproj", "{4464BB19-64D8-4A68-8327-18BA68B71489}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotTool.Console", "PlotTool.Console\PlotTool.Console.csproj", "{EC961EB2-0C10-44FF-8E9F-C50CDB4C3435}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotTool.Console", "PlotTool.Console\PlotTool.Console.csproj", "{EC961EB2-0C10-44FF-8E9F-C50CDB4C3435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlotTool.Tests", "PlotTool.Tests\PlotTool.Tests.csproj", "{9966C932-09E5-4734-909E-B36029B8CD51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EC961EB2-0C10-44FF-8E9F-C50CDB4C3435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC961EB2-0C10-44FF-8E9F-C50CDB4C3435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC961EB2-0C10-44FF-8E9F-C50CDB4C3435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9966C932-09E5-4734-909E-B36029B8CD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9966C932-09E5-4734-909E-B36029B8CD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9966C932-09E5-4734-909E-B36029B8CD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9966C932-09E5-4734-909E-B36029B8CD51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,7 +11,7 @@ namespace PlotTool.Helpers
     internal static class FileParser
     {
         private const char CoordinatesSeparator = ' ';
-        private const string TracePattern = @"^(([^\d\s]+.*)|(.+[^\d\s]+))";
+        private const string TraceNamePattern = @"^(([^\d\s]+.*)|(.+[^\d\s]+))";
 
         public static Task<IEnumerable<PlotView>> ParseAsync(InputPlotData plotData)
         {
@@ -92,15 +92,20 @@ namespace PlotTool.Helpers
 
         private static bool TryGetTraceNameByFileHeader(string line, string filePath, out string traceName)
         {
-            var result = line != null && Regex.IsMatch(line, TracePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var result = line != null && Regex.IsMatch(line, TraceNamePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
             traceName = result ? line : GetTraceNameByFilePath(filePath);
 
             return result;
         }
 
 
-        private static string GetTraceNameByFilePath(string filePath) =>
-            filePath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
-                StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+        private static string GetTraceNameByFilePath(string filePath)
+        {
+            var fileInfo = new FileInfo(filePath);
+
+            return !string.IsNullOrEmpty(fileInfo.Extension)
+                ? fileInfo.Name.Replace(fileInfo.Extension, string.Empty)
+                : fileInfo.Name;
+        }
     }
 }
