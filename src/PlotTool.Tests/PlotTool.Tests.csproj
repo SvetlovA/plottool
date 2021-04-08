@@ -17,13 +17,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TestPlotFiles\**">
+    <None Update="TestPlotFolder\TestPlotFiles1\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="TestPlotResults\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestPlotFolder\TestPlotFiles2\TestPlot1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

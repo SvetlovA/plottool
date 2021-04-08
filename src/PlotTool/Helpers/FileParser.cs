@@ -51,9 +51,12 @@ namespace PlotTool.Helpers
 
         private static async Task<IEnumerable<TraceView>> GetTraceViewsAsync(string directoryPath)
         {
-            var filePaths = Directory.GetFiles(directoryPath);
-            var result = new List<TraceView>(filePaths.Length);
+            var filePaths = Directory.GetFiles(directoryPath, "*", new EnumerationOptions
+            {
+                RecurseSubdirectories = true
+            });
 
+            var result = new List<TraceView>(filePaths.Length);
             foreach (var filePath in filePaths)
             {
                 IEnumerable<string> lines = await File.ReadAllLinesAsync(filePath);

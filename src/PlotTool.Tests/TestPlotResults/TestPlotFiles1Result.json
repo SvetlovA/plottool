@@ -1,5 +1,5 @@
 {
-  "PlotName": "TestPlotFiles",
+  "PlotName": "TestPlotFolder/TestPlotFiles1",
   "Traces": [
     {
       "TraceName": "TestPlot1",
