@@ -35,7 +35,7 @@ using System;
 using PlotTool;
 using PlotTool.Console;
 
-var plotManager = PlotManagerFactory.CreateFilePlotManager("<plot_name>", "<file_paths>");
+var plotManager = PlotManagerFactory.CreateFilePlotManager("<plot_name>", "<plot_paths>");
 await plotManager.DrawAll();
 ```
 

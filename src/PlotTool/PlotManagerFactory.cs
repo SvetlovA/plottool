@@ -9,17 +9,17 @@ namespace PlotTool
 {
     public static class PlotManagerFactory
     {
-        public static IPlotManager CreateFilePlotManager(params string[] plotFilesDirectoryPaths) =>
+        public static IPlotManager CreateFilePlotManager(params string[] plotPaths) =>
             new PlotManager(new PlotViewService(new FilePlotViewRepository(new InputPlotData
             {
-                PlotPaths = plotFilesDirectoryPaths
+                PlotPaths = plotPaths
             })));
 
-        public static IPlotManager CreateFilePlotManager(string plotName, string[] plotFilesDirectoryPaths) =>
+        public static IPlotManager CreateFilePlotManager(string plotName, string[] plotPaths) =>
             new PlotManager(new PlotViewService(new FilePlotViewRepository(new InputPlotData
             {
                 PlotName = plotName,
-                PlotPaths = plotFilesDirectoryPaths
+                PlotPaths = plotPaths
             })));
     }
 }
