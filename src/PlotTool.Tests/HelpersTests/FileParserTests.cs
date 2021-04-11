@@ -19,7 +19,7 @@ namespace PlotTool.Tests.HelpersTests
         {
             var actualResults = await FileParser.ParseAsync(new InputPlotData
             {
-                PlotFilesDirectoryPaths = testFolderPaths
+                PlotPaths = testFolderPaths
             });
 
             var expectedResults = expectedResultPaths.Select(GetExpectedPlotView);
@@ -48,6 +48,9 @@ namespace PlotTool.Tests.HelpersTests
                 yield return new TestCaseData(new[] { "TestPlotFolder/TestPlotFiles1", "TestPlotFolder/TestPlotFiles2" },
                         new [] { "TestPlotResults/TestPlotFiles1Result.json", "TestPlotResults/TestPlotFiles2Result.json" })
                     .SetName("ParseAsync multi folder test");
+
+                yield return new TestCaseData(new[] { "TestPlotFolder/TestPlotFiles1/TestPlot1.txt" }, new [] { "TestPlotResults/TestPlotFileResult.json" })
+                    .SetName("ParseAsync single file test");
             }
         }
 

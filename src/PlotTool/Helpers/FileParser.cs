@@ -20,9 +20,9 @@ namespace PlotTool.Helpers
                 throw new ArgumentNullException(nameof(plotData));
             }
 
-            if (plotData.PlotFilesDirectoryPaths == null)
+            if (plotData.PlotPaths == null)
             {
-                throw new ArgumentNullException(nameof(plotData.PlotFilesDirectoryPaths));
+                throw new ArgumentNullException(nameof(plotData.PlotPaths));
             }
 
             return GetPlotViews(plotData);
@@ -30,31 +30,32 @@ namespace PlotTool.Helpers
 
         private static async Task<IEnumerable<PlotView>> GetPlotViews(InputPlotData plotData)
         {
-            var result = new List<PlotView>(plotData.PlotFilesDirectoryPaths.Length);
+            var result = new List<PlotView>(plotData.PlotPaths.Length);
 
-            foreach (var directoryPath in plotData.PlotFilesDirectoryPaths)
+            foreach (var plotPath in plotData.PlotPaths)
             {
-                if (!Directory.Exists(directoryPath))
+                if (!Directory.Exists(plotPath) && !File.Exists(plotPath))
                 {
-                    throw new Exception($"Directory {directoryPath} not exists");
+                    throw new Exception($"Directory or file {plotPath} not exists");
                 }
 
                 result.Add(new PlotView
                 {
-                    PlotName = plotData.PlotName ?? directoryPath,
-                    Traces = (await GetTraceViewsAsync(directoryPath)).ToArray()
+                    PlotName = plotData.PlotName ?? plotPath,
+                    Traces = (await GetTraceViewsAsync(plotPath)).ToArray()
                 });
             }
 
             return result;
         }
 
-        private static async Task<IEnumerable<TraceView>> GetTraceViewsAsync(string directoryPath)
+        private static async Task<IEnumerable<TraceView>> GetTraceViewsAsync(string plotPath)
         {
-            var filePaths = Directory.GetFiles(directoryPath, "*", new EnumerationOptions
-            {
-                RecurseSubdirectories = true
-            });
+            var filePaths = File.GetAttributes(plotPath) == FileAttributes.Directory
+                ? Directory.GetFiles(plotPath, "*", new EnumerationOptions
+                {
+                    RecurseSubdirectories = true
+                }) : new []{ plotPath };
 
             var result = new List<TraceView>(filePaths.Length);
             foreach (var filePath in filePaths)

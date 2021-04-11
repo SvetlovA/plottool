@@ -1,0 +1,10 @@
+{
+  "PlotName": "TestPlotFolder/TestPlotFiles1/TestPlot1.txt",
+  "Traces": [
+    {
+      "TraceName": "TestPlot1",
+      "X": [ 0, 10, 20, 30, 40, 50 ],
+      "Y": [ 1, 10, 50, 10, 25, 30 ]
+    }
+  ] 
+}

@@ -12,14 +12,14 @@ namespace PlotTool
         public static IPlotManager CreateFilePlotManager(params string[] plotFilesDirectoryPaths) =>
             new PlotManager(new PlotViewService(new FilePlotViewRepository(new InputPlotData
             {
-                PlotFilesDirectoryPaths = plotFilesDirectoryPaths
+                PlotPaths = plotFilesDirectoryPaths
             })));
 
         public static IPlotManager CreateFilePlotManager(string plotName, string[] plotFilesDirectoryPaths) =>
             new PlotManager(new PlotViewService(new FilePlotViewRepository(new InputPlotData
             {
                 PlotName = plotName,
-                PlotFilesDirectoryPaths = plotFilesDirectoryPaths
+                PlotPaths = plotFilesDirectoryPaths
             })));
     }
 }
