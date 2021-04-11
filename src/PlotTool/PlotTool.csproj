@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <Company />
     <Authors>SvetlovA</Authors>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <PackageProjectUrl>https://github.com/SvetlovA/plottool</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SvetlovA/plottool</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
