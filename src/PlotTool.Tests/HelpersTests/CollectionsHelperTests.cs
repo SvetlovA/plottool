@@ -1,13 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using PlotTool.Helpers;
+using StaticMock;
 
 namespace PlotTool.Tests.HelpersTests
 {
     [TestFixture]
     public class CollectionsHelperTests
     {
+        [Test]
+        public void TestMergeCollectionMock()
+        {
+            var expectedCollection = new List<double> { 1, 2, 3 };
+
+            Mock.Setup(() => CollectionsHelper.MergeCollections(new List<double>(), new List<double>()), () =>
+            {
+                var actualCollectionMergeResult = CollectionsHelper.MergeCollections(new List<double>(), new List<double>());
+                Assert.IsTrue(actualCollectionMergeResult.SequenceEqual(expectedCollection));
+            }).Returns(expectedCollection);
+        }
+
         [Test]
         [TestCaseSource(nameof(MergeCollectionsPositiveTestCaseData))]
         public IList<double> MergeCollectionsPositiveTest(IList<double> firstCollection, IList<double> secondCollection)
